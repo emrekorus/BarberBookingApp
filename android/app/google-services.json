@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "333875762640",
+    "project_id": "barberbookingapp-8d5a4",
+    "storage_bucket": "barberbookingapp-8d5a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333875762640:android:89f4f3cd4397d7521d95d5",
+        "android_client_info": {
+          "package_name": "com.ckytech.my_barber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333875762640-df8q56fifb2i7uqc5eiqduotfofv825o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ckytech.my_barber",
+            "certificate_hash": "ca28b0ee8983a8e43d16ed7e748e368601a39fd3"
+          }
+        },
+        {
+          "client_id": "333875762640-pjl448qbi0od6nojndq56mevjl7mvdgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeYB0sybhqqkGMhGEkfxAprWJ4eU7cwcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333875762640-pjl448qbi0od6nojndq56mevjl7mvdgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

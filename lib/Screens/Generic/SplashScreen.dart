@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Screens/Home/HomeScreen.dart';
+import 'package:my_barber/Services/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -54,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           _timerSplash.cancel();
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => AuthService().handleAuth()),
               (Route<dynamic> route) => false);
         }
       });
