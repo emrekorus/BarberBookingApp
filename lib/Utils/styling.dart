@@ -6,7 +6,7 @@ class AppTheme {
 
   static const Color appBackgroundColor = Color(0xFFFFF7EC);
   static const Color topBarBackgroundColor = Color(0xFF333E4B);
-  static const Color selectedTabBackgroundColor = Color(0xFF001F4D);
+  static const Color selectedTabBackgroundColor = Color(0xFFE70506);
   static const Color unSelectedTabBackgroundColor = Color(0xFFFFFFFC);
   static const Color subTitleTextColor = Color(0xFF9F988F);
 

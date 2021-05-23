@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_barber/Screens/Booking/BookingScreen.dart';
+import 'package:my_barber/Screens/Appointment/AppointmentScreen.dart';
 import 'package:my_barber/Screens/Discover/DiscoverScreen.dart';
-import 'package:my_barber/Screens/History/HistoryScreen.dart';
 import 'package:my_barber/Screens/Profile/ProfileScreen.dart';
 import 'package:my_barber/Utils/app_localizations.dart';
 import 'package:my_barber/Utils/size_config.dart';
@@ -29,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pageOptions = [
       DiscoverScreen(),
-      BookingScreen(),
-      HistoryScreen(),
+      AppointmentScreen(),
       ProfileScreen(),
     ];
 
@@ -48,12 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
         _appBarTitle = AppLocalizations.of(context).translate('discover_screen_title');
       }
       if(_selectedPage == 1){
-        _appBarTitle = AppLocalizations.of(context).translate('booking_screen_title');
+        _appBarTitle = AppLocalizations.of(context).translate('appointment_screen_title');
       }
       if(_selectedPage == 2){
-        _appBarTitle = AppLocalizations.of(context).translate('history_screen_title');
-      }
-      if(_selectedPage == 3){
         _appBarTitle = AppLocalizations.of(context).translate('profile_screen_title');
       }
       isLoadedOnce = true;
@@ -75,12 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   _appBarTitle = AppLocalizations.of(context).translate('discover_screen_title');
                 }
                 if(index == 1){
-                  _appBarTitle = AppLocalizations.of(context).translate('booking_screen_title');
+                  _appBarTitle = AppLocalizations.of(context).translate('appointment_screen_title');
                 }
                 if(index == 2){
-                  _appBarTitle = AppLocalizations.of(context).translate('history_screen_title');
-                }
-                if(index == 3){
                   _appBarTitle = AppLocalizations.of(context).translate('profile_screen_title');
                 }
                 _selectedPage = index;
@@ -99,14 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.book_online),
                 title: Text(
-                  AppLocalizations.of(context).translate('booking_screen_title'),
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 2 * SizeConfig.textMultiplier),
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                title: Text(
-                  AppLocalizations.of(context).translate('history_screen_title'),
+                  AppLocalizations.of(context).translate('appointment_screen_title'),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 2 * SizeConfig.textMultiplier),
                 ),
               ),

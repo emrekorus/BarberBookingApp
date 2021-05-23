@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
-class BookingScreen extends StatefulWidget {
+class AppointmentScreen extends StatefulWidget {
   @override
-  _BookingScreenState createState() => _BookingScreenState();
+  _AppointmentScreenState createState() => _AppointmentScreenState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
+class _AppointmentScreenState extends State<AppointmentScreen> {
   int step = 1;
   String selectedCity = "";
 

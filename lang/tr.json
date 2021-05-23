@@ -14,7 +14,7 @@
   "error_signing_in": "Giriş Yapılırken Bir Hata Oluştu",
   "username_or_password_wrong": "Kullanıcı adı veya şifre yanlış",
   "discover_screen_title": "Discover",
-  "booking_screen_title": "Booking",
+  "appointment_screen_title": "Appointment",
   "history_screen_title": "History",
   "profile_screen_title": "Profile"
 
