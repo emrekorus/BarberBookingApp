@@ -17,7 +17,7 @@ class Users {
     name = snapshot.value['name'];
     surname = snapshot.value['surname'];
     email = snapshot.value['mail'];
-    phone_number = snapshot.value['phone_number'];
+    phone_number = snapshot.value['phone_number'].toString();
     profile_image = snapshot.value['profile_image'];
   }
 

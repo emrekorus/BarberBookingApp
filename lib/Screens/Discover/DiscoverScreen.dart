@@ -1,19 +1,30 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/BarberItem.dart';
 import 'package:my_barber/Screens/Generic/FavouriteBarberItem.dart';
+import 'package:my_barber/Screens/Generic/LoadingScreen.dart';
 import 'package:my_barber/Screens/Generic/SystemUI.dart';
+import 'package:my_barber/Services/DatabaseHelper.dart';
 import 'package:my_barber/Utils/app_localizations.dart';
 import 'package:my_barber/Utils/size_config.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class DiscoverScreen extends StatefulWidget {
+  Users user;
+
+  DiscoverScreen(this.user);
+
   @override
   _DiscoverScreenState createState() => _DiscoverScreenState();
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  bool isLoading = true;
+  List<Barber> _barbers = [];
+
   List<int> list = [1, 2, 3, 4, 5];
   List<String> list2 = [
     "assets/images/1.jpg",
@@ -32,6 +43,31 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     });
   }
 
+  getBarbers() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      List<Barber> barbers = await DatabaseHelper().getBarbers();
+      if (mounted) {
+        setState(() {
+          _barbers = barbers;
+        });
+      }
+    } catch (e) {
+      print("getBarbers (): Exception: $e");
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
@@ -44,7 +80,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         panelBuilder: (scrollController) => buildSlidingPanel(
             scrollController: scrollController,
             panelController: panelController),
-        body: discoverScreenBody());
+        body: isLoading ? LoadingScreen() : discoverScreenBody());
   }
 
   Widget discoverScreenBody() {
@@ -167,7 +203,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.fromLTRB(1*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 0),
+                padding: EdgeInsets.fromLTRB(
+                    1 * SizeConfig.heightMultiplier,
+                    1 * SizeConfig.heightMultiplier,
+                    1 * SizeConfig.heightMultiplier,
+                    0),
                 child: Text("My Favourite Barbers"),
               ),
               Card(
@@ -187,7 +227,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(1*SizeConfig.heightMultiplier, 3*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 0),
+                padding: EdgeInsets.fromLTRB(
+                    1 * SizeConfig.heightMultiplier,
+                    3 * SizeConfig.heightMultiplier,
+                    1 * SizeConfig.heightMultiplier,
+                    0),
                 child: Text("All Barbers"),
               ),
               Card(

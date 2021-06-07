@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class ProfileScreen extends StatefulWidget {
+  Users user;
+
+  ProfileScreen(this.user);
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -24,7 +28,6 @@ class MyCustomClipper extends CustomClipper<Path> {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name = "Emre baba";
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: CircleAvatar(
                       radius: 70,
                       child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/emre.jpg',
+                        child: Image.network(
+                          widget.user.profile_image,
                           height: 20 * SizeConfig.heightMultiplier,
                           width: 20 * SizeConfig.heightMultiplier,
                           fit: BoxFit.cover,
@@ -74,16 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Container(
                         height: 40,
                         width: 40,
-                        child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                name = "Mehmet Ali BABA";
-                              });
-                            },
-                            child: Icon(
-                              Icons.add_a_photo,
-                              color: Colors.white,
-                            )),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Colors.white,
+                        ),
                         decoration: BoxDecoration(
                             color: Theme.of(context).primaryColorDark,
                             borderRadius:
@@ -94,14 +91,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        Text(name,
+        Text(widget.user.name + " " + widget.user.surname,
             style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.bold)),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("emre.korus@gmail.com"),
+          child: Text(widget.user.email),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 30, top: 30),

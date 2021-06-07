@@ -13,7 +13,7 @@ class _ReviewItemState extends State<ReviewItem> {
     return Card(
       elevation: 1 * SizeConfig.heightMultiplier,
       color: Colors.grey[100],
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.all(4),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(children: [
@@ -99,7 +99,7 @@ class _ReviewItemState extends State<ReviewItem> {
                                 style: TextStyle(
                                     color: Colors.grey[800],
                                     fontSize: 1.5 * SizeConfig.textMultiplier),
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.justify,
                               ),
                             ),
                           ],

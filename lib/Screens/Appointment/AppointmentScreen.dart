@@ -1,9 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class AppointmentScreen extends StatefulWidget {
+  Users user;
+
+  AppointmentScreen(this.user);
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
