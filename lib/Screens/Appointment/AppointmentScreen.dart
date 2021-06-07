@@ -9,88 +9,58 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
-  int step = 1;
-  String selectedCity = "";
-
-  displayCityList() {
-    List<String> cities = ["Ankara", "İstanbul", "İzmir"];
-
-    return ListView.builder(
-        itemCount: cities.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCity = cities[index];
-              });
-            },
-            child: Card(
-                child: ListTile(
-              leading: Icon(Icons.home_work),
-              trailing:
-                  (selectedCity == cities[index]) ? Icon(Icons.check) : null,
-              title: Text(cities[index]),
-            )),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        NumberStepper(
-          activeStep: step - 1,
-          direction: Axis.horizontal,
-          enableNextPreviousButtons: false,
-          enableStepTapping: false,
-          numbers: [1, 2, 3, 4, 5],
-          stepColor: Theme.of(context).primaryColor,
-          activeStepColor: Theme.of(context).primaryColorDark,
-          numberStyle: TextStyle(color: Colors.white),
-          lineColor: Colors.black,
-        ),
-        Expanded(child: step == 1 ? displayCityList() : SizedBox()),
-        Expanded(
-            child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: ElevatedButton(
-                  onPressed: step == 1
-                      ? null
-                      : () {
-                          setState(() {
-                            step--;
-                          });
-                        },
-                  child: Text("Previous"),
-                )),
-                SizedBox(
-                  width: 10 * SizeConfig.widthMultiplier,
+    return new DefaultTabController(
+      length: 2,
+      child: new Scaffold(
+        appBar: new PreferredSize(
+          preferredSize: Size.fromHeight(9*SizeConfig.heightMultiplier),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new Card(
+              elevation: 2*SizeConfig.heightMultiplier,
+              color: Theme.of(context).primaryColor,
+              child: new SafeArea(
+                child: Column(
+                  children: <Widget>[
+                    new Expanded(child: new Container()),
+                    new TabBar(
+                      indicatorColor: Colors.white,
+                      tabs: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Text(
+                            "Future",
+                            style: TextStyle(
+                                fontSize: 2 * SizeConfig.textMultiplier),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Text("History",
+                              style: TextStyle(
+                                  fontSize: 2 * SizeConfig.textMultiplier)),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                Expanded(
-                    child: ElevatedButton(
-                  onPressed: selectedCity == ""
-                      ? null
-                      : step == 5
-                          ? null
-                          : () {
-                              setState(() {
-                                step++;
-                              });
-                            },
-                  child: Text('Next'),
-                ))
-              ],
+              ),
             ),
           ),
-        ))
-      ],
+        ),
+        body: new TabBarView(
+          children: <Widget>[
+            new Column(
+              children: <Widget>[new Text("Future Page")],
+            ),
+            new Column(
+              children: <Widget>[new Text("History Page")],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
