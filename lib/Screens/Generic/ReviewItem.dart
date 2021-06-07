@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Models/Review.dart';
 import 'package:my_barber/Utils/size_config.dart';
+import 'package:intl/intl.dart';
 
 class ReviewItem extends StatefulWidget {
+  Review review;
+
+  ReviewItem(this.review);
+
   @override
   _ReviewItemState createState() => _ReviewItemState();
 }
@@ -46,12 +52,14 @@ class _ReviewItemState extends State<ReviewItem> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Emre K.",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 1.7 * SizeConfig.textMultiplier),
+                            Expanded(
+                              child: Text(
+                                widget.review.user,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize: 1.7 * SizeConfig.textMultiplier),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -61,7 +69,7 @@ class _ReviewItemState extends State<ReviewItem> {
                                   color: Theme.of(context).primaryColorDark,
                                 ),
                                 Text(
-                                  " 5",
+                                  " ${widget.review.star}",
                                   style: TextStyle(
                                       color: Colors.grey[800],
                                       fontSize:
@@ -70,8 +78,11 @@ class _ReviewItemState extends State<ReviewItem> {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              width: 5 * SizeConfig.widthMultiplier,
+                            ),
                             Text(
-                              "2 days ago",
+                              "${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.review.time)).toString()}",
                               style: TextStyle(
                                   color: Colors.grey[800],
                                   fontSize: 1.5 * SizeConfig.textMultiplier),
@@ -95,7 +106,7 @@ class _ReviewItemState extends State<ReviewItem> {
                             ),
                             Flexible(
                               child: Text(
-                                "Tek kelime ile harika. Ankaraya geldiğimden beri bir çok berber değiştirdim kafa yapım zor olduğu için saç kesimlerim istediğim gibi olmuyordu. Resul hocam ben koltuğa otururken senin sac kesimin benim gözümde bitti bile dedi. Eline sağlık dediği gibi de güzel oldu. Emre ve ahmet hocam işinin ehli.",
+                                widget.review.comment,
                                 style: TextStyle(
                                     color: Colors.grey[800],
                                     fontSize: 1.5 * SizeConfig.textMultiplier),

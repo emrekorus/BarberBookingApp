@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Screens/Generic/ReviewItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class BarberDetailItem extends StatefulWidget {
+  Barber barber;
+
+  BarberDetailItem(this.barber);
+
   @override
   _BarberDetailItemState createState() => _BarberDetailItemState();
 }
@@ -13,7 +18,7 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Barber Detail"),
+        title: Text(widget.barber.name),
       ),
       body: ListView(
         children: [
@@ -25,13 +30,13 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                   Stack(
                     children: <Widget>[
                       Container(
-                          padding:
-                              EdgeInsets.only(left: 1 * SizeConfig.widthMultiplier),
+                          padding: EdgeInsets.only(
+                              left: 1 * SizeConfig.widthMultiplier),
                           height: MediaQuery.of(context).size.height * 0.30,
                           width: MediaQuery.of(context).size.width,
                           decoration: new BoxDecoration(
                             image: new DecorationImage(
-                              image: AssetImage('assets/images/1.jpg'),
+                              image: NetworkImage(widget.barber.image),
                               fit: BoxFit.cover,
                             ),
                           )),
@@ -41,8 +46,8 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                         padding: EdgeInsets.symmetric(
                             vertical: 1 * SizeConfig.heightMultiplier,
                             horizontal: 3 * SizeConfig.widthMultiplier),
-                        decoration:
-                            BoxDecoration(color: Color.fromRGBO(58, 66, 86, .4)),
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(58, 66, 86, .4)),
                         child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,26 +60,31 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                                     padding: EdgeInsets.all(
                                         0.2 * SizeConfig.heightMultiplier),
                                     decoration: new BoxDecoration(
-                                        border: new Border.all(color: Colors.white),
+                                        border:
+                                            new Border.all(color: Colors.white),
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(
                                             1.5 * SizeConfig.heightMultiplier)),
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.star,
-                                          color: Theme.of(context).primaryColorDark,
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
                                         ),
                                         new Text(
-                                          " 4.5",
+                                          " ${widget.barber.stars}",
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .primaryColorDark,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text("(100+)",
+                                        Text(
+                                            "(${widget.barber.reviews.length}+)",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 1.7 *
@@ -104,58 +114,58 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: Row(
                   children: [
                     Text(
-                      "Kadir Alkan Erkek Kuaförü",
+                      widget.barber.name,
                       textAlign: TextAlign.left,
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.map,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                        Text(
-                          " Ayvalı Mahallesi. Keçiören",
-                          style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 1.7 * SizeConfig.textMultiplier),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                    Icon(
+                      Icons.map,
+                      color: Theme.of(context).primaryColorDark,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                        Text(
-                          "300m",
-                          style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 1.7 * SizeConfig.textMultiplier),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        " ${widget.barber.address}",
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 1.7 * SizeConfig.textMultiplier),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    Text(
+                      "300m",
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 1.7 * SizeConfig.textMultiplier),
+                      textAlign: TextAlign.right,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -168,7 +178,7 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                     ),
                     Flexible(
                       child: Text(
-                        "Gold Berber / Ankara Berber / Ankara Kuaför / Saç Tasarım / Cilt Bakım / Model Kesim / Klasik Kesim / Tarz Kesim / Asimetrik Kesimler / Ankara nın En İyi Berberi / Etimesgut / Bağlıca",
+                        widget.barber.about,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             color: Colors.grey[800],
@@ -179,12 +189,13 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                 ),
               ),
               Container(
-                height: 30*SizeConfig.heightMultiplier,
+                height: 60 * SizeConfig.heightMultiplier,
                 child: DefaultTabController(
-                  length: 2,
+                  length: 3,
                   child: new Scaffold(
                     appBar: new PreferredSize(
-                      preferredSize: Size.fromHeight(9 * SizeConfig.heightMultiplier),
+                      preferredSize:
+                          Size.fromHeight(12 * SizeConfig.heightMultiplier),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: new Card(
@@ -200,16 +211,28 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: new Text(
-                                        "Future",
+                                        "Reviews",
                                         style: TextStyle(
-                                            fontSize: 2 * SizeConfig.textMultiplier),
+                                            fontSize:
+                                                2 * SizeConfig.textMultiplier),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: new Text("History",
+                                      child: new Text(
+                                        "Hair Stylists",
+                                        style: TextStyle(
+                                            fontSize:
+                                                2 * SizeConfig.textMultiplier),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: new Text("Services",
                                           style: TextStyle(
-                                              fontSize: 2 * SizeConfig.textMultiplier)),
+                                              fontSize: 2 *
+                                                  SizeConfig.textMultiplier)),
                                     )
                                   ],
                                 ),
@@ -221,36 +244,90 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                     ),
                     body: new TabBarView(
                       children: <Widget>[
-                        new Column(
-                          children: <Widget>[new Text("Future Page")],
+                        new Card(
+                          elevation: 2 * SizeConfig.heightMultiplier,
+                          child: ListView.builder(
+                              itemCount: widget.barber.reviews.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ReviewItem(widget.barber.reviews[index]);
+                              }),
                         ),
-                        new Column(
-                          children: <Widget>[new Text("History Page")],
-                        )
+                        new Card(
+                          elevation: 2 * SizeConfig.heightMultiplier,
+                          child: ListView.builder(
+                              itemCount: widget.barber.personals.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Card(
+                                  elevation: 1 * SizeConfig.heightMultiplier,
+                                  color: Colors.grey[100],
+                                  margin: EdgeInsets.all(4),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            ClipOval(
+                                              child: Material(
+                                                color: Colors.grey[300],
+                                                // Button color
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.person,
+                                                    size: 4 *
+                                                        SizeConfig
+                                                            .imageSizeMultiplier,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    8, 4, 8, 0),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      widget
+                                                          .barber
+                                                          .personals[index]
+                                                          .barber_name,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          fontSize: 1.7 *
+                                                              SizeConfig
+                                                                  .textMultiplier),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                );
+                                ;
+                              }),
+                        ),
+                        new Card(
+                            elevation: 2 * SizeConfig.heightMultiplier,
+                            child: Text("Hizmetler")),
                       ],
                     ),
                   ),
-                ),
-              ),
-              Card(
-                elevation: 2 * SizeConfig.heightMultiplier,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 1 * SizeConfig.heightMultiplier,
-                    ),
-                    ReviewItem(),
-                    Divider(
-                      height: 3 * SizeConfig.heightMultiplier,
-                      color: Colors.grey,
-                      indent: 3 * SizeConfig.widthMultiplier,
-                      endIndent: 3 * SizeConfig.widthMultiplier,
-                    ),
-                    ReviewItem(),
-                    SizedBox(
-                      height: 1 * SizeConfig.heightMultiplier,
-                    ),
-                  ],
                 ),
               ),
             ]),

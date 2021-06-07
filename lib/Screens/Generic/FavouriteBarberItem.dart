@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Screens/Generic/BarberDetailItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class FavouriteBarberItem extends StatefulWidget {
+  Barber barber;
+
+  FavouriteBarberItem(this.barber);
+
   @override
   _FavouriteBarberItemState createState() => _FavouriteBarberItemState();
 }
@@ -12,12 +17,12 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => BarberDetailItem(),
-                ));
+              builder: (context) => BarberDetailItem(widget.barber),
+            ));
       },
       child: Card(
         color: Colors.grey[300],
@@ -34,13 +39,13 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                 Stack(
                   children: <Widget>[
                     Container(
-                        padding:
-                            EdgeInsets.only(left: 1 * SizeConfig.widthMultiplier),
+                        padding: EdgeInsets.only(
+                            left: 1 * SizeConfig.widthMultiplier),
                         height: MediaQuery.of(context).size.height * 0.20,
                         width: MediaQuery.of(context).size.width * 0.85,
                         decoration: new BoxDecoration(
                           image: new DecorationImage(
-                            image: AssetImage('assets/images/1.jpg'),
+                            image: NetworkImage(widget.barber.image),
                             fit: BoxFit.cover,
                           ),
                         )),
@@ -64,26 +69,29 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                                   padding: EdgeInsets.all(
                                       0.2 * SizeConfig.heightMultiplier),
                                   decoration: new BoxDecoration(
-                                      border: new Border.all(color: Colors.white),
+                                      border:
+                                          new Border.all(color: Colors.white),
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(
                                           1.5 * SizeConfig.heightMultiplier)),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.star,
-                                        color: Theme.of(context).primaryColorDark,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
                                       ),
                                       new Text(
-                                        " 4.5",
+                                        " ${widget.barber.stars}",
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .primaryColorDark,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text("(100+)",
+                                      Text("(${widget.barber.reviews.length}+)",
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 1.7 *
@@ -117,7 +125,7 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
               child: Row(
                 children: [
                   Text(
-                    "Kadir Alkan Erkek Kuaförü",
+                    widget.barber.name,
                     textAlign: TextAlign.left,
                   ),
                 ],
@@ -135,12 +143,18 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                         Icons.map,
                         color: Theme.of(context).primaryColorDark,
                       ),
-                      Text(
-                        " Ayvalı Mahallesi. Keçiören",
-                        style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 1.7 * SizeConfig.textMultiplier),
-                        textAlign: TextAlign.left,
+                      SizedBox(
+                        width: 60 * SizeConfig.widthMultiplier,
+                        child: Text(
+                          " ${widget.barber.address}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 1.7 * SizeConfig.textMultiplier),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
                     ],
                   ),

@@ -213,18 +213,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               Card(
                 elevation: 2 * SizeConfig.heightMultiplier,
                 child: Container(
-                  height: 32 * SizeConfig.heightMultiplier,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 1.5 * SizeConfig.heightMultiplier),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      FavouriteBarberItem(),
-                      FavouriteBarberItem(),
-                      FavouriteBarberItem(),
-                    ],
-                  ),
-                ),
+                    height: 32 * SizeConfig.heightMultiplier,
+                    padding: EdgeInsets.symmetric(
+                        vertical: 1.5 * SizeConfig.heightMultiplier),
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _barbers.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return FavouriteBarberItem(_barbers[index]);
+                        })),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -235,33 +232,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 child: Text("All Barbers"),
               ),
               Card(
-                elevation: 2 * SizeConfig.heightMultiplier,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 1 * SizeConfig.heightMultiplier,
-                    ),
-                    BarberItem(),
-                    Divider(
-                      height: 3 * SizeConfig.heightMultiplier,
-                      color: Colors.grey,
-                      indent: 3 * SizeConfig.widthMultiplier,
-                      endIndent: 3 * SizeConfig.widthMultiplier,
-                    ),
-                    BarberItem(),
-                    Divider(
-                      height: 3 * SizeConfig.heightMultiplier,
-                      color: Colors.grey,
-                      indent: 3 * SizeConfig.widthMultiplier,
-                      endIndent: 3 * SizeConfig.widthMultiplier,
-                    ),
-                    BarberItem(),
-                    SizedBox(
-                      height: 1 * SizeConfig.heightMultiplier,
-                    ),
-                  ],
-                ),
-              ),
+                  elevation: 2 * SizeConfig.heightMultiplier,
+                  child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _barbers.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return BarberItem(_barbers[index]);
+                      })),
             ],
           ),
         ),
