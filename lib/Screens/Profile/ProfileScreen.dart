@@ -39,7 +39,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     clipper: MyCustomClipper(),
                     child: Container(
                         height: 25 * SizeConfig.heightMultiplier,
-                        color: Theme.of(context).primaryColorDark),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                              Theme.of(context).primaryColorDark,
+                              Color.fromRGBO(0, 41, 102, 1)
+                            ]))),
                   ),
                 ],
               ),
@@ -98,8 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 30, top: 30),
-          child: Expanded(
-              child: Container(
+          child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 gradient: LinearGradient(
@@ -171,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-          )),
+          ),
         )
       ],
     );
