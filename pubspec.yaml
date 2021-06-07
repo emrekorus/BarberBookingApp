@@ -61,6 +61,7 @@ flutter:
     - assets/images/4.jpg
     - assets/images/5.jpg
     - assets/images/6.jpg
+    - assets/images/emre.jpg
     - lang/tr.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
