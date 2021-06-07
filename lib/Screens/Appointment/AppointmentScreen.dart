@@ -15,11 +15,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       length: 2,
       child: new Scaffold(
         appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(9*SizeConfig.heightMultiplier),
+          preferredSize: Size.fromHeight(9 * SizeConfig.heightMultiplier),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: new Card(
-              elevation: 2*SizeConfig.heightMultiplier,
+              elevation: 2 * SizeConfig.heightMultiplier,
               color: Theme.of(context).primaryColor,
               child: new SafeArea(
                 child: Column(

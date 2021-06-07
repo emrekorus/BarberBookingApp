@@ -60,10 +60,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(
-                            5 * SizeConfig.heightMultiplier),
-                        bottomRight: Radius.circular(
-                            5 * SizeConfig.heightMultiplier)),
+                        topRight:
+                            Radius.circular(5 * SizeConfig.heightMultiplier),
+                        bottomRight:
+                            Radius.circular(5 * SizeConfig.heightMultiplier)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -75,11 +75,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   child: ClipRRect(
                       child: Container(
-                          padding: EdgeInsets.all(
-                              2 * SizeConfig.heightMultiplier),
+                          padding:
+                              EdgeInsets.all(2 * SizeConfig.heightMultiplier),
                           child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Icon(Icons.home_work),
                               Container(
@@ -90,8 +89,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                               Text("Ev"),
                               Text(
                                 "Etimesgut Mahallesi...",
-                                style:
-                                    Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Icon(Icons.arrow_forward_ios),
                             ],
@@ -100,7 +98,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ],
             )),
         Container(
-          height: 75*SizeConfig.heightMultiplier,
+          height: 75 * SizeConfig.heightMultiplier,
           child: ListView(
             children: [
               Container(
@@ -168,6 +166,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                 ),
               ),
+              Padding(
+                padding:  EdgeInsets.fromLTRB(1*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 0),
+                child: Text("My Favourite Barbers"),
+              ),
               Card(
                 elevation: 2 * SizeConfig.heightMultiplier,
                 child: Container(
@@ -184,38 +186,41 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(1*SizeConfig.heightMultiplier, 3*SizeConfig.heightMultiplier, 1*SizeConfig.heightMultiplier, 0),
+                child: Text("All Barbers"),
+              ),
               Card(
                 elevation: 2 * SizeConfig.heightMultiplier,
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 1*SizeConfig.heightMultiplier,
+                      height: 1 * SizeConfig.heightMultiplier,
                     ),
                     BarberItem(),
                     Divider(
-                      height: 3*SizeConfig.heightMultiplier,
+                      height: 3 * SizeConfig.heightMultiplier,
                       color: Colors.grey,
-                      indent: 3*SizeConfig.widthMultiplier,
-                      endIndent: 3*SizeConfig.widthMultiplier,
+                      indent: 3 * SizeConfig.widthMultiplier,
+                      endIndent: 3 * SizeConfig.widthMultiplier,
                     ),
                     BarberItem(),
                     Divider(
-                      height: 3*SizeConfig.heightMultiplier,
+                      height: 3 * SizeConfig.heightMultiplier,
                       color: Colors.grey,
-                      indent: 3*SizeConfig.widthMultiplier,
-                      endIndent: 3*SizeConfig.widthMultiplier,
+                      indent: 3 * SizeConfig.widthMultiplier,
+                      endIndent: 3 * SizeConfig.widthMultiplier,
                     ),
                     BarberItem(),
                     SizedBox(
-                      height: 1*SizeConfig.heightMultiplier,
+                      height: 1 * SizeConfig.heightMultiplier,
                     ),
                   ],
                 ),
-                ),
+              ),
             ],
           ),
         ),
-
       ],
     );
   }
