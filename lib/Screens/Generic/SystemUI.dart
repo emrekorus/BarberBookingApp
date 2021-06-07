@@ -22,17 +22,5 @@ class SystemUI {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(1 * SizeConfig.heightMultiplier)),
     );
-
-    Container(
-      child: RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(2 * SizeConfig.heightMultiplier)),
-          onPressed: onPressed,
-          padding: EdgeInsets.all(2 * SizeConfig.heightMultiplier),
-          color: backgroundColor,
-          textColor: textColor,
-          child: Text(text)),
-    );
   }
 }

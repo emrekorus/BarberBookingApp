@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_barber/Screens/Generic/BarberItem.dart';
+import 'package:my_barber/Screens/Generic/FavouriteBarberItem.dart';
 import 'package:my_barber/Screens/Generic/SystemUI.dart';
 import 'package:my_barber/Utils/app_localizations.dart';
 import 'package:my_barber/Utils/size_config.dart';
@@ -58,10 +60,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                        topRight:
-                            Radius.circular(5 * SizeConfig.heightMultiplier),
-                        bottomRight:
-                            Radius.circular(5 * SizeConfig.heightMultiplier)),
+                        topRight: Radius.circular(
+                            5 * SizeConfig.heightMultiplier),
+                        bottomRight: Radius.circular(
+                            5 * SizeConfig.heightMultiplier)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -73,10 +75,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   child: ClipRRect(
                       child: Container(
-                          padding:
-                              EdgeInsets.all(2 * SizeConfig.heightMultiplier),
+                          padding: EdgeInsets.all(
+                              2 * SizeConfig.heightMultiplier),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                             children: [
                               Icon(Icons.home_work),
                               Container(
@@ -87,7 +90,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                               Text("Ev"),
                               Text(
                                 "Etimesgut Mahallesi...",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style:
+                                    Theme.of(context).textTheme.bodyText1,
                               ),
                               Icon(Icons.arrow_forward_ios),
                             ],
@@ -96,69 +100,122 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ],
             )),
         Container(
-            child: CarouselSlider(
-          options: CarouselOptions(
-              viewportFraction: 1,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 5)),
-          items: list2
-              .map((item) => Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.asset(
-                    item,
-                    fit: BoxFit.cover,
-                  )))
-              .toList(),
-        )),
-        Card(
-          margin: EdgeInsets.all(2 * SizeConfig.heightMultiplier),
-          child: Padding(
-            padding: EdgeInsets.all(1.5 * SizeConfig.heightMultiplier),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
+          height: 75*SizeConfig.heightMultiplier,
+          child: ListView(
+            children: [
+              Container(
+                  child: CarouselSlider(
+                options: CarouselOptions(
+                    viewportFraction: 1,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 5)),
+                items: list2
+                    .map((item) => Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset(
+                          item,
+                          fit: BoxFit.cover,
+                        )))
+                    .toList(),
+              )),
+              Card(
+                elevation: 1 * SizeConfig.heightMultiplier,
+                margin: EdgeInsets.all(2 * SizeConfig.heightMultiplier),
+                child: Padding(
+                  padding: EdgeInsets.all(1.5 * SizeConfig.heightMultiplier),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.filter_alt),
-                      SizedBox(
-                        width: 2 * SizeConfig.widthMultiplier,
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.filter_alt),
+                            SizedBox(
+                              width: 2 * SizeConfig.widthMultiplier,
+                            ),
+                            Text("Filters"),
+                          ],
+                        ),
                       ),
-                      Text("Filters"),
+                      Container(
+                          height: 3 * SizeConfig.heightMultiplier,
+                          child: VerticalDivider(
+                            color: Colors.black,
+                          )),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (panelController.isPanelOpen) {
+                              panelController.close();
+                            } else {
+                              panelController.open();
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.sort),
+                              SizedBox(
+                                width: 2 * SizeConfig.widthMultiplier,
+                              ),
+                              Text("Sorting")
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Container(
-                    height: 3 * SizeConfig.heightMultiplier,
-                    child: VerticalDivider(
-                      color: Colors.black,
-                    )),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      if (panelController.isPanelOpen) {
-                        panelController.close();
-                      } else {
-                        panelController.open();
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.sort),
-                        SizedBox(
-                          width: 2 * SizeConfig.widthMultiplier,
-                        ),
-                        Text("Sorting")
-                      ],
-                    ),
+              ),
+              Card(
+                elevation: 2 * SizeConfig.heightMultiplier,
+                child: Container(
+                  height: 32 * SizeConfig.heightMultiplier,
+                  padding: EdgeInsets.symmetric(
+                      vertical: 1.5 * SizeConfig.heightMultiplier),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      FavouriteBarberItem(),
+                      FavouriteBarberItem(),
+                      FavouriteBarberItem(),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Card(
+                elevation: 2 * SizeConfig.heightMultiplier,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 1*SizeConfig.heightMultiplier,
+                    ),
+                    BarberItem(),
+                    Divider(
+                      height: 3*SizeConfig.heightMultiplier,
+                      color: Colors.grey,
+                      indent: 3*SizeConfig.widthMultiplier,
+                      endIndent: 3*SizeConfig.widthMultiplier,
+                    ),
+                    BarberItem(),
+                    Divider(
+                      height: 3*SizeConfig.heightMultiplier,
+                      color: Colors.grey,
+                      indent: 3*SizeConfig.widthMultiplier,
+                      endIndent: 3*SizeConfig.widthMultiplier,
+                    ),
+                    BarberItem(),
+                    SizedBox(
+                      height: 1*SizeConfig.heightMultiplier,
+                    ),
+                  ],
+                ),
+                ),
+            ],
           ),
-        )
+        ),
+
       ],
     );
   }
