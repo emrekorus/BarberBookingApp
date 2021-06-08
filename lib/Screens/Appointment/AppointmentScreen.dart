@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
@@ -35,7 +33,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: new Text(
-                            "Future",
+                            "Ongoing",
                             style: TextStyle(
                                 fontSize: 2 * SizeConfig.textMultiplier),
                           ),
@@ -57,7 +55,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         body: new TabBarView(
           children: <Widget>[
             new Column(
-              children: <Widget>[new Text("Future Page")],
+              children: <Widget>[new Text("Ongoing Page")],
             ),
             new Column(
               children: <Widget>[new Text("History Page")],

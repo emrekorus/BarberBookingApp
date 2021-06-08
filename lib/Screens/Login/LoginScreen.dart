@@ -187,7 +187,10 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         bool isEmailInUsing = false;
         print("clicked2");
-        await dbReference.child("user_list").once().then((DataSnapshot snapshot) {
+        await dbReference
+            .child("user_list")
+            .once()
+            .then((DataSnapshot snapshot) {
           print("clicked3");
           if (snapshot.value != null) {
             var DATA = snapshot.value;

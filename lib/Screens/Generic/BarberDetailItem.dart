@@ -1,8 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/Service.dart';
+import 'package:my_barber/Screens/Generic/MakeAppointmentScreen.dart';
 import 'package:my_barber/Screens/Generic/ReviewItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
+
+import 'SystemUI.dart';
 
 class BarberDetailItem extends StatefulWidget {
   Barber barber;
@@ -14,6 +20,31 @@ class BarberDetailItem extends StatefulWidget {
 }
 
 class _BarberDetailItemState extends State<BarberDetailItem> {
+  int _radioValue = 0;
+  List<Service> services = [];
+
+  void _handleRadioValueChange(int value) {
+    setState(() {
+      _radioValue = value;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    List<String> names = [
+      "Hair Style",
+      "Change Hair Color",
+      "Hair Cutting",
+      "Skin Care"
+    ];
+    for (int i = 0; i < 4; i++) {
+      Service service = Service(i, names[i], (Random().nextInt(7) + 6) * 5,
+          (Random().nextInt(7) + 8) * 5, "assets/images/${(i + 1)}.jpg");
+      services.add(service);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,7 +220,7 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                 ),
               ),
               Container(
-                height: 60 * SizeConfig.heightMultiplier,
+                height: 70 * SizeConfig.heightMultiplier,
                 child: DefaultTabController(
                   length: 3,
                   child: new Scaffold(
@@ -228,12 +259,11 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: new Text("Services",
-                                          style: TextStyle(
-                                              fontSize: 2 *
-                                                  SizeConfig.textMultiplier)),
-                                    )
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: new Text("Services",
+                                            style: TextStyle(
+                                                fontSize: 2 *
+                                                    SizeConfig.textMultiplier)))
                                   ],
                                 ),
                               ],
@@ -324,7 +354,36 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                         ),
                         new Card(
                             elevation: 2 * SizeConfig.heightMultiplier,
-                            child: Text("Hizmetler")),
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 1 * SizeConfig.heightMultiplier,
+                                    horizontal: 3 * SizeConfig.widthMultiplier),
+                                child: Column(
+                                  children: [
+                                    Expanded(child: servicesUI()),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Divider(
+                                          height:
+                                              2 * SizeConfig.heightMultiplier,
+                                        ),
+                                        SystemUI().cancelButton(() {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => MakeAppointmentScreen(widget.barber,services[_radioValue]),
+                                              ));
+                                        }, text: "Book Appointment"),
+                                        Divider(
+                                          height:
+                                              1 * SizeConfig.heightMultiplier,
+                                          color: Colors.transparent,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ))),
                       ],
                     ),
                   ),
@@ -335,5 +394,130 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
         ],
       ),
     );
+  }
+
+  Widget radioUI(Service service) {
+    bool isActive = _radioValue == service.id;
+    Color activeColor = Colors.black;
+    if (isActive) {
+      activeColor = Colors.red;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        _handleRadioValueChange(service.id);
+      },
+      child: Card(
+        color: Colors.grey[100],
+        elevation: 1 * SizeConfig.heightMultiplier,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0, vertical: 1 * SizeConfig.heightMultiplier),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(2 * SizeConfig.heightMultiplier),
+                child: Image.asset(
+                  service.image,
+                  height: 15 * SizeConfig.widthMultiplier,
+                  width: 15 * SizeConfig.widthMultiplier,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            service.name,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 2 * SizeConfig.textMultiplier),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "${service.min} Min",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 1.7 * SizeConfig.textMultiplier),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4 * SizeConfig.widthMultiplier,
+                          ),
+                          Text(
+                            "${service.price} ₺",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColorDark,
+                                fontSize: 2 * SizeConfig.textMultiplier),
+                            textAlign: TextAlign.right,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Radio(
+                value: service.id,
+                groupValue: _radioValue,
+                activeColor: activeColor,
+                onChanged: _handleRadioValueChange,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget servicesUI() {
+    return ListView.builder(
+        itemCount: services.length,
+        itemBuilder: (BuildContext context, int index) {
+          return radioUI(services[index]);
+        });
+
+/*
+    Column(
+    children: [
+    radioUI(0, "assets/images/1.jpg", "Hair Style", mins[0], prices[0]),
+    Divider(
+    height: 0 * SizeConfig.heightMultiplier,
+    color: Colors.black45,
+    ),
+    radioUI(
+    1, "assets/images/2.jpg", "Change Hair Color", mins[1], prices[1]),
+    Divider(
+    height: 0 * SizeConfig.heightMultiplier,
+    color: Colors.black45,
+    ),
+    radioUI(2, "assets/images/3.jpg", "Hair Cutting", mins[2], prices[2]),
+    Divider(
+    height: 0 * SizeConfig.heightMultiplier,
+    color: Colors.black45,
+    ),
+    radioUI(3, "assets/images/4.jpg", "Skin Care", mins[3], prices[3]),
+    ]
+    ,
+    );*/
   }
 }
