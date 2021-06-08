@@ -1,33 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/HelperModels/ReservationHelper.dart';
 import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 import 'BarberDetailItem.dart';
 
-class BarberItem extends StatefulWidget {
-  Barber barber;
+class ReservationItem extends StatefulWidget {
+  ReservationHelper reservationHelper;
   Users user;
 
-  BarberItem(this.barber, this.user);
+  ReservationItem(this.reservationHelper, this.user);
 
   @override
-  _BarberItemState createState() => _BarberItemState();
+  _ReservationItemState createState() => _ReservationItemState();
 }
 
-class _BarberItemState extends State<BarberItem> {
-
-
+class _ReservationItemState extends State<ReservationItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        /*Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => BarberDetailItem(widget.barber, widget.user),
-            ));
+            ));*/
       },
       child: Card(
         color: Colors.grey[200],
@@ -40,16 +39,6 @@ class _BarberItemState extends State<BarberItem> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(2 * SizeConfig.heightMultiplier),
-                    child: Image.network(
-                      widget.barber.image,
-                      height: 20 * SizeConfig.widthMultiplier,
-                      width: 20 * SizeConfig.widthMultiplier,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                   Expanded(
                     flex: 5,
                     child: Column(
@@ -62,7 +51,7 @@ class _BarberItemState extends State<BarberItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                widget.barber.name,
+                                widget.reservationHelper.barber.name,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -77,12 +66,12 @@ class _BarberItemState extends State<BarberItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(
-                                Icons.map,
+                                Icons.calendar_today_outlined,
                                 color: Theme.of(context).primaryColorDark,
                               ),
                               Flexible(
                                 child: Text(
-                                  " ${widget.barber.address}",
+                                  " ${widget.reservationHelper.date} - ${widget.reservationHelper.time}",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Colors.grey[800],
@@ -100,11 +89,11 @@ class _BarberItemState extends State<BarberItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(
-                                Icons.location_on_outlined,
+                                Icons.fiber_smart_record,
                                 color: Theme.of(context).primaryColorDark,
                               ),
                               Text(
-                                "300m",
+                                " ${widget.reservationHelper.service}",
                                 style: TextStyle(
                                     color: Colors.grey[800],
                                     fontSize: 1.7 * SizeConfig.textMultiplier),
@@ -136,14 +125,15 @@ class _BarberItemState extends State<BarberItem> {
                                   size: 4 * SizeConfig.imageSizeMultiplier,
                                 ),
                                 new Text(
-                                  " ${widget.barber.stars}",
+                                  " ${widget.reservationHelper.barber.stars}",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColorDark,
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           1.7 * SizeConfig.textMultiplier),
                                 ),
-                                Text("(${widget.barber.reviews.length}+)",
+                                Text(
+                                    "(${widget.reservationHelper.barber.reviews.length}+)",
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize:

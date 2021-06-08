@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Models/Service.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/MakeAppointmentScreen.dart';
 import 'package:my_barber/Screens/Generic/ReviewItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
@@ -12,8 +13,9 @@ import 'SystemUI.dart';
 
 class BarberDetailItem extends StatefulWidget {
   Barber barber;
+  Users user;
 
-  BarberDetailItem(this.barber);
+  BarberDetailItem(this.barber, this.user);
 
   @override
   _BarberDetailItemState createState() => _BarberDetailItemState();
@@ -372,7 +374,10 @@ class _BarberDetailItemState extends State<BarberDetailItem> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => MakeAppointmentScreen(widget.barber,services[_radioValue]),
+                                                builder: (context) =>
+                                                    MakeAppointmentScreen(
+                                                        widget.barber,
+                                                        services[_radioValue], widget.user),
                                               ));
                                         }, text: "Book Appointment"),
                                         Divider(

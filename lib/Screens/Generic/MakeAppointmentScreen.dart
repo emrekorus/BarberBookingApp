@@ -6,6 +6,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Models/Service.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/ConfirmAppointmentScreen.dart';
 import 'package:my_barber/Screens/Generic/ReviewItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
@@ -15,8 +16,8 @@ import 'SystemUI.dart';
 class MakeAppointmentScreen extends StatefulWidget {
   Barber barber;
   Service service;
-
-  MakeAppointmentScreen(this.barber, this.service);
+  Users user;
+  MakeAppointmentScreen(this.barber, this.service, this.user);
 
   @override
   _MakeAppointmentScreenState createState() => _MakeAppointmentScreenState();
@@ -357,7 +358,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
                              Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ConfirmAppointmentScreen(widget.barber,widget.service, selectedDate, selectedTime),
+                            builder: (context) => ConfirmAppointmentScreen(widget.barber,widget.service, selectedDate, selectedTime, widget.user),
                           ));
                           }, text: "Next")
                         : SizedBox(),
