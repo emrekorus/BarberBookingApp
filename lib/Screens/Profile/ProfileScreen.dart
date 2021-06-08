@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Users.dart';
+import 'package:my_barber/Services/auth_service.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -152,24 +153,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         border: Border.all(width: 1.0, color: Colors.white)),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                  child: Container(
-                    height: 8 * SizeConfig.heightMultiplier,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Log Out',
-                          style: TextStyle(color: Colors.white),
+                GestureDetector(onTap:(){
+                  AuthService().signOut(context);
+                },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                    child: Container(
+                      height: 8 * SizeConfig.heightMultiplier,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Log Out',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          border: Border.all(width: 1.0, color: Colors.white)),
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        border: Border.all(width: 1.0, color: Colors.white)),
                   ),
                 ),
               ],
