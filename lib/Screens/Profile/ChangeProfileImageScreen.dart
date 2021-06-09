@@ -26,7 +26,7 @@ class _ChangeProfileImageScreenState extends State<ChangeProfileImageScreen> {
 
   _imgFromCamera() async {
     PickedFile image =
-    await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+        await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     setState(() {
       _image = File(image.path);
     });
@@ -34,7 +34,7 @@ class _ChangeProfileImageScreenState extends State<ChangeProfileImageScreen> {
 
   _imgFromGallery() async {
     PickedFile image =
-    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     setState(() {
       _image = File(image.path);
     });
@@ -105,7 +105,6 @@ class _ChangeProfileImageScreenState extends State<ChangeProfileImageScreen> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-
                                 Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -157,7 +156,7 @@ class _ChangeProfileImageScreenState extends State<ChangeProfileImageScreen> {
                                                 setState(() {
                                                   isUploading = false;
                                                 });
-                                                Navigator.pop(context,url);
+                                                Navigator.pop(context, url);
                                               }
                                             : null,
                                         child: CircleAvatar(

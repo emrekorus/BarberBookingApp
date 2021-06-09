@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_barber/Models/HelperModels/ReservationHelper.dart';
 import 'package:my_barber/Models/Reservation.dart';
 import 'package:my_barber/Models/Users.dart';
@@ -19,6 +20,8 @@ class AppointmentScreen extends StatefulWidget {
 class _AppointmentScreenState extends State<AppointmentScreen> {
   bool isLoading = true;
   List<ReservationHelper> _allReservations = [];
+  List<ReservationHelper> _onGoingReservations = [];
+  List<ReservationHelper> _historyReservations = [];
 
   void getAppointments() async {
     setState(() {
@@ -26,8 +29,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     });
     var reservations =
         await DatabaseHelper().getReservations(widget.user.user_id);
+
+    var now = DateTime.now();
+    for (int i = 0; i < reservations.length; i++) {
+      DateTime tempDate = DateFormat("dd/MM/yyyy HH").parse(
+          reservations[i].date + " " + reservations[i].time.substring(8, 10));
+      if (tempDate.isBefore(now)) {
+        _historyReservations.add(reservations[i]);
+      } else {
+        _onGoingReservations.add(reservations[i]);
+      }
+    }
     setState(() {
-      _allReservations = reservations;
+      // _allReservations = reservations;
       isLoading = false;
     });
   }
@@ -87,15 +101,24 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   new Column(children: <Widget>[
                     Expanded(
                       child: ListView.builder(
-                          itemCount: _allReservations.length,
+                          itemCount: _onGoingReservations.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ReservationItem(
-                                _allReservations[index], widget.user);
+                                _onGoingReservations[index], widget.user);
                           }),
                     )
                   ]),
                   new Column(
-                    children: <Widget>[new Text("History Page")],
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: _historyReservations.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ReservationItem(
+                                  _historyReservations[index], widget.user);
+                            }),
+                      )
+                    ],
                   )
                 ],
               ),

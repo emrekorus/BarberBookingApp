@@ -150,7 +150,11 @@ class DatabaseHelper {
           for (var individualKey in snapshot.value.keys) {
             Reservation reservation = Reservation.fromJson(DATA[individualKey]);
             Barber barber = await getSpecificBarber(reservation.berber_id);
-
+            reservation.date = reservation.date.substring(0, 2) +
+                "/" +
+                reservation.date.substring(2, 4) +
+                "/" +
+                reservation.date.substring(4, 8);
             ReservationHelper reservationHelper = ReservationHelper(
                 reservation.reservation_id,
                 barber,
