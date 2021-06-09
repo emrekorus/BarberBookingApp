@@ -71,8 +71,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(_appBarTitle),
+      appBar: AppBar(centerTitle: true,
+        title: Text(_appBarTitle, style: TextStyle(letterSpacing: 4,fontWeight: FontWeight.bold, shadows: <Shadow>[
+          Shadow(
+            offset: Offset(2, 5),
+            blurRadius: 3.0,
+            color: Color.fromARGB(255, 0, 0, 0),
+          ),
+          Shadow(
+            offset: Offset(2, 5),
+            blurRadius: 8.0,
+            color: Color.fromARGB(125, 0, 0, 255),
+          ),
+        ],),),
       ),
       body: isLoading ? LoadingScreen() : _pageOptions[_selectedPage],
       bottomNavigationBar: Theme(

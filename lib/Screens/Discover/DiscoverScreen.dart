@@ -67,17 +67,13 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   void removeBarberFromFavourite(Barber barber) {
     _favouriteBarbers.remove(barber);
     widget.user.favourite_barbers.remove(barber.ID);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void addBarberToFavourite(Barber barber) {
     _favouriteBarbers.add(barber);
     widget.user.favourite_barbers.add(barber.ID);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   getBarbers() async {
@@ -296,17 +292,26 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ),
               Card(
                 elevation: 2 * SizeConfig.heightMultiplier,
-                child: Container(
-                    height: 32 * SizeConfig.heightMultiplier,
-                    padding: EdgeInsets.symmetric(
-                        vertical: 1.5 * SizeConfig.heightMultiplier),
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _favouriteBarbers.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return FavouriteBarberItem(
-                              _favouriteBarbers[index], widget.user,true,removeBarberFromFavourite,addBarberToFavourite);
-                        })),
+                child: _favouriteBarbers.length > 0
+                    ? Container(
+                        height: 32 * SizeConfig.heightMultiplier,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 1.5 * SizeConfig.heightMultiplier),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _favouriteBarbers.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return FavouriteBarberItem(
+                                  _favouriteBarbers[index],
+                                  widget.user,
+                                  true,
+                                  removeBarberFromFavourite,
+                                  addBarberToFavourite);
+                            }))
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("There is no favourite barber"),
+                      ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -323,8 +328,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       shrinkWrap: true,
                       itemCount: _filteredBarbers.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return BarberItem(_filteredBarbers[index], widget.user,
-                            _favouriteBarbers.contains(_filteredBarbers[index]), removeBarberFromFavourite,addBarberToFavourite);
+                        return BarberItem(
+                            _filteredBarbers[index],
+                            widget.user,
+                            _favouriteBarbers.contains(_filteredBarbers[index]),
+                            removeBarberFromFavourite,
+                            addBarberToFavourite);
                       })),
             ],
           ),
