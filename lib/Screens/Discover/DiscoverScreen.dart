@@ -33,11 +33,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   List<int> list = [1, 2, 3, 4, 5];
   List<String> list2 = [
-    "assets/images/1.jpg",
-    "assets/images/2.jpg",
-    "assets/images/3.jpg",
+    "assets/images/banner1.png",
     "assets/images/4.jpg",
+    "assets/images/banner2.png",
     "assets/images/5.jpg",
+    "assets/images/banner3.png",
     "assets/images/6.jpg"
   ];
   int _radioValue = 0;
