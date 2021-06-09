@@ -16,5 +16,7 @@
   "discover_screen_title": "Discover",
   "appointment_screen_title": "Appointment",
   "history_screen_title": "History",
-  "profile_screen_title": "Profile"
+  "profile_screen_title": "Profile",
+  "profile_image": "Profile Image",
+  "uploading": "Uploading"
 }

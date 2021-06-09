@@ -143,7 +143,7 @@ class AuthService {
     return userModel;
   }
 
-  Future uploadImageToFirebase(
+  Future<String> uploadImageToFirebase(
     File image,
     String user_id,
   ) async {
@@ -152,17 +152,19 @@ class AuthService {
         FirebaseStorage.instance.ref().child('user_list/$user_id/$fileName');
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(image);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    taskSnapshot.ref.getDownloadURL().then(
+    await taskSnapshot.ref.getDownloadURL().then(
       (value) async {
         print("Done: $value");
-        await updateProfileImage(value, user_id);
+        var url =  await updateProfileImage(value, user_id);
+        print("url:" + url  + "   \nvalue: " + value);
+        return url;
       },
     ).catchError((onError) {
       print("Done: $onError");
     });
   }
 
-  Future<void> updateProfileImage(String image_url, String user_id) async {
+  Future<String> updateProfileImage(String image_url, String user_id) async {
     await FirebaseDatabase.instance
         .reference()
         .child("user_list")
