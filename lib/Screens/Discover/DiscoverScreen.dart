@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +51,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     }
     if (value == 1) {
       _filteredBarbers.sort((a, b) => b.stars.compareTo(a.stars));
-    }
-    else if(value ==2){
+    } else if (value == 2) {
       _filteredBarbers.sort((a, b) => a.distance.compareTo(b.distance));
     }
     setState(() {});
@@ -60,6 +61,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     applyFilter(value);
     setState(() {
       _radioValue = value;
+    });
+  }
+
+  void removeBarberFromFavourite(Barber barber) {
+    _favouriteBarbers.remove(barber);
+    widget.user.favourite_barbers.remove(barber.ID);
+    setState(() {
+
+    });
+  }
+
+  void addBarberToFavourite(Barber barber) {
+    _favouriteBarbers.add(barber);
+    widget.user.favourite_barbers.add(barber.ID);
+    setState(() {
+
     });
   }
 
@@ -78,8 +95,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         selectedLocationIndex = 0;
         _allBarbers = barbers;
 
-        _favouriteBarbers.add(_allBarbers[0]);
-        _favouriteBarbers.add(_allBarbers[1]);
+        for (int i = 0; i < widget.user.favourite_barbers.length; i++) {
+          _favouriteBarbers.add(_allBarbers.firstWhere(
+              (element) => element.ID == widget.user.favourite_barbers[i]));
+        }
 
         for (int i = 0; i < _allBarbers.length; i++) {
           _allBarbers[i].distance = DatabaseHelper().findDistance(
@@ -286,7 +305,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         itemCount: _favouriteBarbers.length,
                         itemBuilder: (BuildContext context, int index) {
                           return FavouriteBarberItem(
-                              _favouriteBarbers[index], widget.user);
+                              _favouriteBarbers[index], widget.user,true,removeBarberFromFavourite,addBarberToFavourite);
                         })),
               ),
               Padding(
@@ -304,7 +323,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       shrinkWrap: true,
                       itemCount: _filteredBarbers.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return BarberItem(_filteredBarbers[index], widget.user);
+                        return BarberItem(_filteredBarbers[index], widget.user,
+                            _favouriteBarbers.contains(_filteredBarbers[index]), removeBarberFromFavourite,addBarberToFavourite);
                       })),
             ],
           ),

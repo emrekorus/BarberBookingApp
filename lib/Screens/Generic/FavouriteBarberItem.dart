@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/BarberDetailItem.dart';
+import 'package:my_barber/Services/DatabaseHelper.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class FavouriteBarberItem extends StatefulWidget {
   Barber barber;
   Users user;
+  bool isFavourite;
+  final Function removeBarberFromFavourite;
+  final Function addBarberToFavourite;
 
-  FavouriteBarberItem(this.barber, this.user);
+  FavouriteBarberItem(this.barber, this.user, this.isFavourite,
+      this.removeBarberFromFavourite, this.addBarberToFavourite);
 
   @override
   _FavouriteBarberItemState createState() => _FavouriteBarberItemState();
@@ -112,11 +117,30 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                       top: 0,
                       right: 0,
                       child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.bookmark_border,
-                          color: Colors.white,
-                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (widget.isFavourite) {
+                              widget.isFavourite = false;
+                              widget.removeBarberFromFavourite(widget.barber);
+                              DatabaseHelper().removeFavouriteBarber(
+                                  widget.user.user_id, widget.barber.ID);
+                            } else {
+                              widget.isFavourite = true;
+                              widget.addBarberToFavourite(widget.barber);
+                              DatabaseHelper().addFavouriteBarber(
+                                  widget.user.user_id, widget.barber.ID);
+                            }
+                          });
+                        },
+                        icon: widget.isFavourite
+                            ? Icon(
+                                Icons.bookmark,
+                                color: Colors.amber,
+                              )
+                            : Icon(
+                                Icons.bookmark_border,
+                                color: Colors.white,
+                              ),
                       ),
                     ),
                   ],

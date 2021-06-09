@@ -174,6 +174,32 @@ class DatabaseHelper {
     return reservations;
   }
 
+  Future<void> addFavouriteBarber(String user_id, String barber_id) async {
+    try {
+      await _databaseRef
+          .child("user_list")
+          .child(user_id)
+          .child("favourite_barbers")
+          .child(barber_id)
+          .set({'id': barber_id});
+    } catch (e) {
+      print("DatabaseHelper - saveFavouriteBarber(): Error: ${e}");
+    }
+  }
+
+  Future<void> removeFavouriteBarber(String user_id, String barber_id) async {
+    try {
+      await _databaseRef
+          .child("user_list")
+          .child(user_id)
+          .child("favourite_barbers")
+          .child(barber_id)
+          .remove();
+    } catch (e) {
+      print("DatabaseHelper - removeFavouriteBarber(): Error: ${e}");
+    }
+  }
+
   double findDistance(double firstLatitude, double firstLongitude,
       double secondLatitude, double secondLongitude) {
     return (sqrt(pow(firstLatitude - secondLatitude, 2) +

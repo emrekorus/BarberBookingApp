@@ -40,10 +40,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         _onGoingReservations.add(reservations[i]);
       }
     }
-    setState(() {
-      // _allReservations = reservations;
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        // _allReservations = reservations;
+        isLoading = false;
+      });
+    }
   }
 
   @override
