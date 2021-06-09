@@ -220,7 +220,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: _barbers.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return FavouriteBarberItem(_barbers[index]);
+                          return FavouriteBarberItem(
+                              _barbers[index], widget.user);
                         })),
               ),
               Padding(
@@ -238,7 +239,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       shrinkWrap: true,
                       itemCount: _barbers.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return BarberItem(_barbers[index]);
+                        return BarberItem(_barbers[index], widget.user);
                       })),
             ],
           ),

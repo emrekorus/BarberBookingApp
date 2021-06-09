@@ -1,19 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/BarberDetailItem.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 class FavouriteBarberItem extends StatefulWidget {
   Barber barber;
+  Users user;
 
-  FavouriteBarberItem(this.barber);
+  FavouriteBarberItem(this.barber, this.user);
 
   @override
   _FavouriteBarberItemState createState() => _FavouriteBarberItemState();
 }
 
 class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,7 +24,7 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BarberDetailItem(widget.barber),
+              builder: (context) => BarberDetailItem(widget.barber, widget.user),
             ));
       },
       child: Card(

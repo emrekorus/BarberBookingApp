@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/Reservation.dart';
 import 'package:my_barber/Models/Service.dart';
+import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/ReviewItem.dart';
+import 'package:my_barber/Screens/Home/HomeScreen.dart';
+import 'package:my_barber/Services/DatabaseHelper.dart';
 import 'package:my_barber/Utils/size_config.dart';
 
 import 'SystemUI.dart';
@@ -16,9 +20,10 @@ class ConfirmAppointmentScreen extends StatefulWidget {
   Service service;
   DateTime time;
   String timeInterval;
+  Users user;
 
   ConfirmAppointmentScreen(
-      this.barber, this.service, this.time, this.timeInterval);
+      this.barber, this.service, this.time, this.timeInterval, this.user);
 
   @override
   _ConfirmAppointmentScreenState createState() =>
@@ -26,6 +31,16 @@ class ConfirmAppointmentScreen extends StatefulWidget {
 }
 
 class _ConfirmAppointmentScreenState extends State<ConfirmAppointmentScreen> {
+  int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      index = Random().nextInt(widget.barber.personals.length);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,156 +204,99 @@ class _ConfirmAppointmentScreenState extends State<ConfirmAppointmentScreen> {
                   ]),
                 ),
               ),
-              Container(
-                height: 20 * SizeConfig.heightMultiplier,
-                width: 20 * SizeConfig.heightMultiplier,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'))),
+              Padding(
+                padding: EdgeInsets.all(3 * SizeConfig.heightMultiplier),
+                child: Container(
+                  height: 20 * SizeConfig.heightMultiplier,
+                  width: 20 * SizeConfig.heightMultiplier,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/logo.png'))),
+                ),
               ),
-              /* Container(
-                padding: EdgeInsets.all(1 * SizeConfig.heightMultiplier),
-                width: 100 * SizeConfig.widthMultiplier,
-                color: Theme.of(context).primaryColorDark,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("BOOKING INFORMATION")],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 1 * SizeConfig.heightMultiplier,
+                    horizontal: 5 * SizeConfig.widthMultiplier),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 12 * SizeConfig.imageSizeMultiplier,
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  DateFormat.MMMM().format(selectedDate),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize:
-                                          1.7 * SizeConfig.textMultiplier),
-                                ),
-                                Text(selectedDate.day.toString(),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize:
-                                            2.5 * SizeConfig.textMultiplier)),
-                                Text(DateFormat.EEEE().format(selectedDate),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize:
-                                            1.7 * SizeConfig.textMultiplier))
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    Icon(Icons.calendar_today_outlined),
+                    SizedBox(
+                      width: 4 * SizeConfig.widthMultiplier,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime.now(),
-                            maxTime: DateTime.now().add(Duration(days: 6)),
-                            onConfirm: (date) {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        });
-                      },
-                      icon: Icon(
-                        Icons.calendar_today_outlined,
-                        color: Colors.white,
-                        size: 6 * SizeConfig.imageSizeMultiplier,
+                    Text(
+                      widget.timeInterval +
+                          " - ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.time.millisecondsSinceEpoch)).toString()}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 1.8 * SizeConfig.textMultiplier),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 1 * SizeConfig.heightMultiplier,
+                    horizontal: 5 * SizeConfig.widthMultiplier),
+                child: Row(
+                  children: [
+                    Icon(Icons.person),
+                    SizedBox(
+                      width: 4 * SizeConfig.widthMultiplier,
+                    ),
+                    Text(
+                      widget.barber.personals[index].barber_name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 1.8 * SizeConfig.textMultiplier),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 1 * SizeConfig.heightMultiplier,
+                    horizontal: 5 * SizeConfig.widthMultiplier),
+                child: Row(
+                  children: [
+                    Icon(Icons.home_work),
+                    SizedBox(
+                      width: 4 * SizeConfig.widthMultiplier,
+                    ),
+                    Text(
+                      widget.barber.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 1.8 * SizeConfig.textMultiplier),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 1 * SizeConfig.heightMultiplier,
+                    horizontal: 5 * SizeConfig.widthMultiplier),
+                child: Row(
+                  children: [
+                    Icon(Icons.location_pin),
+                    SizedBox(
+                      width: 4 * SizeConfig.widthMultiplier,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.barber.address,
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 1.8 * SizeConfig.textMultiplier),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                height: 55 * SizeConfig.heightMultiplier,
-                child: new Card(
-                  elevation: 2 * SizeConfig.heightMultiplier,
-                  child: ListView.builder(
-                      itemCount: times.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (selectedTime == times[index]) {
-                                selectedTime = null;
-                              } else {
-                                selectedTime = times[index];
-                              }
-                            });
-                          },
-                          child: Card(
-                            elevation: 1 * SizeConfig.heightMultiplier,
-                            color: Colors.grey[100],
-                            margin: EdgeInsets.all(4),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      ClipOval(
-                                        child: Material(
-                                          color: Colors.grey[300],
-                                          // Button color
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.fiber_smart_record,
-                                              size: 4 *
-                                                  SizeConfig
-                                                      .imageSizeMultiplier,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(8, 4, 8, 0),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                times[index] + " Available",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 1.7 *
-                                                        SizeConfig
-                                                            .textMultiplier),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      selectedTime == times[index]
-                                          ? Icon(Icons.check)
-                                          : SizedBox()
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ),*/
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -347,13 +305,23 @@ class _ConfirmAppointmentScreenState extends State<ConfirmAppointmentScreen> {
                     Divider(
                       height: 2 * SizeConfig.heightMultiplier,
                     ),
-                    SystemUI().cancelButton(() {
-                      /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MakeAppointmentScreen(widget.barber,services[_radioValue]),
-                          ));*/
-                    }, text: "Confirm"),
+                    SystemUI().cancelButton(
+                      () {
+                        Reservation reservation = Reservation(
+                            "${DateFormat('ddMMyyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.time.millisecondsSinceEpoch)).toString()}@${widget.timeInterval.substring(0, 2)}",
+                            widget.barber.ID,
+                            "${DateFormat('ddMMyyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.time.millisecondsSinceEpoch)).toString()}",
+                            widget.timeInterval,
+                            widget.service.name);
+                        DatabaseHelper().createReservation(
+                            widget.user.user_id, reservation);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen(0)),
+                            (Route<dynamic> route) => false);
+                      },
+                      text: "Confirm",
+                    ),
                     Divider(
                       height: 1 * SizeConfig.heightMultiplier,
                       color: Colors.transparent,
