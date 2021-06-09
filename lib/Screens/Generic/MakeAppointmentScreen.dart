@@ -28,9 +28,9 @@ class MakeAppointmentScreen extends StatefulWidget {
 }
 
 class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
-  bool isLoading = true;
+  bool isLoading = false;
 
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now().add(Duration(days: 1));
   List<String> times = [
     "10:00 - 11:00",
     "11:00 - 12:00",
@@ -43,21 +43,11 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
     "18:00 - 19:00",
   ];
 
-  List<bool> availability = [
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true
-  ];
+  List<bool> availability = [];
 
   String selectedTime;
 
-  getCounters() async {
+  /*getCounters() async {
     setState(() {
       isLoading = true;
     });
@@ -74,12 +64,15 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
       });
       isLoading = false;
     });
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    getCounters();
+
+    for (int i = 0; i < 9; i++) {
+      availability.add(Random().nextBool());
+    }
   }
 
   @override
@@ -312,10 +305,15 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
                             onPressed: () {
                               DatePicker.showDatePicker(context,
                                   showTitleActions: true,
-                                  minTime: DateTime.now(),
+                                  minTime:
+                                      DateTime.now().add(Duration(days: 1)),
                                   maxTime:
                                       DateTime.now().add(Duration(days: 6)),
                                   onConfirm: (date) {
+                                availability.clear();
+                                for (int i = 0; i < 9; i++) {
+                                  availability.add(Random().nextBool());
+                                }
                                 setState(() {
                                   selectedDate = date;
                                 });
