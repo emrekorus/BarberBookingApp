@@ -2,13 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
+import 'package:my_barber/Models/Location.dart';
 import 'package:my_barber/Models/Users.dart';
 import 'package:my_barber/Screens/Generic/BarberItem.dart';
 import 'package:my_barber/Screens/Generic/FavouriteBarberItem.dart';
 import 'package:my_barber/Screens/Generic/LoadingScreen.dart';
 import 'package:my_barber/Screens/Generic/SystemUI.dart';
 import 'package:my_barber/Services/DatabaseHelper.dart';
-import 'package:my_barber/Utils/app_localizations.dart';
 import 'package:my_barber/Utils/size_config.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -23,7 +23,13 @@ class DiscoverScreen extends StatefulWidget {
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
   bool isLoading = true;
-  List<Barber> _barbers = [];
+  List<Barber> _allBarbers = [];
+  List<Barber> _filteredBarbers = [];
+  List<Barber> _favouriteBarbers = [];
+  Location dropdownValue;
+
+  int selectedLocationIndex;
+  List<Location> locations = [];
 
   List<int> list = [1, 2, 3, 4, 5];
   List<String> list2 = [
@@ -37,7 +43,21 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   int _radioValue = 0;
   final panelController = PanelController();
 
+  void applyFilter(int value) {
+    if (value == 0) {
+      _filteredBarbers.shuffle();
+    }
+    if (value == 1) {
+      _filteredBarbers.sort((a, b) => b.stars.compareTo(a.stars));
+    }
+    else if(value ==2){
+      _filteredBarbers.sort((a, b) => a.distance.compareTo(b.distance));
+    }
+    setState(() {});
+  }
+
   void _handleRadioValueChange(int value) {
+    applyFilter(value);
     setState(() {
       _radioValue = value;
     });
@@ -50,9 +70,28 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     try {
       List<Barber> barbers = await DatabaseHelper().getBarbers();
       if (mounted) {
-        setState(() {
-          _barbers = barbers;
-        });
+        locations.add(Location(Icon(Icons.home), 39.948858562097946,
+            32.66209490986347, "Etimesgut"));
+        locations.add(Location(Icon(Icons.home_work_outlined),
+            39.97123776774586, 32.81819595814401, "Etlik"));
+        dropdownValue = locations[0];
+        selectedLocationIndex = 0;
+        _allBarbers = barbers;
+
+        _favouriteBarbers.add(_allBarbers[0]);
+        _favouriteBarbers.add(_allBarbers[1]);
+
+        for (int i = 0; i < _allBarbers.length; i++) {
+          _allBarbers[i].distance = DatabaseHelper().findDistance(
+              _allBarbers[i].latitude,
+              _allBarbers[i].longitude,
+              locations[selectedLocationIndex].latitude,
+              locations[selectedLocationIndex].longitude);
+          if (_allBarbers[i].distance < 3) {
+            _filteredBarbers.add(_allBarbers[i]);
+          }
+        }
+        setState(() {});
       }
     } catch (e) {
       print("getBarbers (): Exception: $e");
@@ -87,19 +126,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     return Column(
       children: [
         Container(
+            padding: EdgeInsets.all(1 * SizeConfig.heightMultiplier),
             width: 100 * SizeConfig.widthMultiplier,
-            decoration: BoxDecoration(color: Colors.yellowAccent[400]),
+            decoration: BoxDecoration(),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: 75 * SizeConfig.widthMultiplier,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight:
-                            Radius.circular(5 * SizeConfig.heightMultiplier),
-                        bottomRight:
-                            Radius.circular(5 * SizeConfig.heightMultiplier)),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(5 * SizeConfig.heightMultiplier)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -111,30 +149,57 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   child: ClipRRect(
                       child: Container(
-                          padding:
-                              EdgeInsets.all(2 * SizeConfig.heightMultiplier),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5 * SizeConfig.widthMultiplier,
+                        vertical: 0.5 * SizeConfig.heightMultiplier),
+                    child: DropdownButton<Location>(
+                      isExpanded: true,
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_drop_down_circle_outlined),
+                      elevation: 16,
+                      onChanged: (Location newValue) {
+                        _filteredBarbers.clear();
+                        for (int i = 0; i < _allBarbers.length; i++) {
+                          _allBarbers[i].distance = DatabaseHelper()
+                              .findDistance(
+                                  _allBarbers[i].latitude,
+                                  _allBarbers[i].longitude,
+                                  newValue.latitude,
+                                  newValue.longitude);
+                          if (_allBarbers[i].distance < 3) {
+                            _filteredBarbers.add(_allBarbers[i]);
+                          }
+                        }
+
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: locations
+                          .map<DropdownMenuItem<Location>>((Location value) {
+                        return DropdownMenuItem<Location>(
+                          value: value,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.home_work),
+                              value.icon,
                               Container(
                                   height: 3 * SizeConfig.heightMultiplier,
                                   child: VerticalDivider(
                                     color: Colors.black,
                                   )),
-                              Text("Ev"),
-                              Text(
-                                "Etimesgut Mahallesi...",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Icon(Icons.arrow_forward_ios),
+                              Text(value.name),
                             ],
-                          ))),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  )),
                 ),
               ],
             )),
         Container(
-          height: 75 * SizeConfig.heightMultiplier,
+          height: 70 * SizeConfig.heightMultiplier,
           child: ListView(
             children: [
               Container(
@@ -218,10 +283,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         vertical: 1.5 * SizeConfig.heightMultiplier),
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: _barbers.length,
+                        itemCount: _favouriteBarbers.length,
                         itemBuilder: (BuildContext context, int index) {
                           return FavouriteBarberItem(
-                              _barbers[index], widget.user);
+                              _favouriteBarbers[index], widget.user);
                         })),
               ),
               Padding(
@@ -237,9 +302,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: _barbers.length,
+                      itemCount: _filteredBarbers.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return BarberItem(_barbers[index], widget.user);
+                        return BarberItem(_filteredBarbers[index], widget.user);
                       })),
             ],
           ),

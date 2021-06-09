@@ -13,6 +13,7 @@ class Barber {
   List<Personal> personals;
   List<Review> reviews;
   double stars;
+  double distance;
 
   Barber.empty();
 

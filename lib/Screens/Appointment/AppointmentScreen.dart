@@ -84,18 +84,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ),
               body: new TabBarView(
                 children: <Widget>[
-                  new Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: _allReservations.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ReservationItem(
-                                  _allReservations[index], widget.user);
-                            }),
-                      )
-  ]
-                  ),
+                  new Column(children: <Widget>[
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: _allReservations.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ReservationItem(
+                                _allReservations[index], widget.user);
+                          }),
+                    )
+                  ]),
                   new Column(
                     children: <Widget>[new Text("History Page")],
                   )

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -167,5 +168,12 @@ class DatabaseHelper {
     }
     print(reservations);
     return reservations;
+  }
+
+  double findDistance(double firstLatitude, double firstLongitude,
+      double secondLatitude, double secondLongitude) {
+    return (sqrt(pow(firstLatitude - secondLatitude, 2) +
+            pow(firstLongitude - secondLongitude, 2))) *
+        100;
   }
 }

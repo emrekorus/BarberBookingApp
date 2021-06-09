@@ -16,7 +16,6 @@ class FavouriteBarberItem extends StatefulWidget {
 }
 
 class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +23,8 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BarberDetailItem(widget.barber, widget.user),
+              builder: (context) =>
+                  BarberDetailItem(widget.barber, widget.user),
             ));
       },
       child: Card(
@@ -147,7 +147,7 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                         color: Theme.of(context).primaryColorDark,
                       ),
                       SizedBox(
-                        width: 60 * SizeConfig.widthMultiplier,
+                        width: 50 * SizeConfig.widthMultiplier,
                         child: Text(
                           " ${widget.barber.address}",
                           overflow: TextOverflow.ellipsis,
@@ -169,7 +169,7 @@ class _FavouriteBarberItemState extends State<FavouriteBarberItem> {
                         color: Theme.of(context).primaryColorDark,
                       ),
                       Text(
-                        "300m",
+                        "${widget.barber.distance.toStringAsFixed(2)} km",
                         style: TextStyle(
                             color: Colors.grey[800],
                             fontSize: 1.7 * SizeConfig.textMultiplier),

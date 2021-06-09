@@ -104,7 +104,7 @@ class _BarberItemState extends State<BarberItem> {
                                 color: Theme.of(context).primaryColorDark,
                               ),
                               Text(
-                                "300m",
+                                "${widget.barber.distance.toStringAsFixed(2)} km",
                                 style: TextStyle(
                                     color: Colors.grey[800],
                                     fontSize: 1.7 * SizeConfig.textMultiplier),
