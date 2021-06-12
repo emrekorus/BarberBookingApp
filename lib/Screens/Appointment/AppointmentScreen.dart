@@ -105,8 +105,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: ListView.builder(
                           itemCount: _onGoingReservations.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ReservationItem(
-                                _onGoingReservations[index], widget.user);
+                            return ReservationItem(_onGoingReservations[index],
+                                false, widget.user);
                           }),
                     )
                   ]),
@@ -117,7 +117,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             itemCount: _historyReservations.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ReservationItem(
-                                  _historyReservations[index], widget.user);
+                                  _historyReservations[index],
+                                  true,
+                                  widget.user);
                             }),
                       )
                     ],

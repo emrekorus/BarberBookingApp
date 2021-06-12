@@ -24,9 +24,12 @@ class Users {
 
     var DATA = snapshot.value['favourite_barbers'];
     List<String> barbers = [];
-    for (var individualKey in snapshot.value['favourite_barbers'].keys) {
-      barbers.add(DATA[individualKey]['id']);
+    if (DATA != null) {
+      for (var individualKey in snapshot.value['favourite_barbers'].keys) {
+        barbers.add(DATA[individualKey]['id']);
+      }
     }
+
     favourite_barbers = barbers;
   }
 

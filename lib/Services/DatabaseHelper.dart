@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:my_barber/Models/Barber.dart';
 import 'package:my_barber/Models/HelperModels/ReservationHelper.dart';
 import 'package:my_barber/Models/Reservation.dart';
+import 'package:my_barber/Models/Review.dart';
 import 'package:my_barber/Models/Users.dart';
 import 'dart:io';
 
@@ -199,6 +200,21 @@ class DatabaseHelper {
       print("DatabaseHelper - removeFavouriteBarber(): Error: ${e}");
     }
   }
+
+  Future<void> submitReview(
+      String barber_id, Review review) async {
+    try {
+      await _databaseRef
+          .child("barbers")
+          .child(barber_id)
+          .child("reviews")
+          .child(review.id)
+          .set(review.toJson());
+    } catch (e) {
+      print("DatabaseHelper - submitReview(): Error: ${e}");
+    }
+  }
+
 
   double findDistance(double firstLatitude, double firstLongitude,
       double secondLatitude, double secondLongitude) {
